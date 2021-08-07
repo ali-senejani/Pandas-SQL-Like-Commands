@@ -1,10 +1,10 @@
 # Pandas-SQL-Like-Commands
 
-This is a short list of commands in Pandas that mimic common SQL queries when working with tables or dataframes, which can serve as quick reference. <br><br>
+This is a short list of commands in Pandas that mimic common SQL queries when working with tables or dataframes, which can serve as a quick reference. <br><br>
 A direct comparison is provided by first displaying a SQL query, followed by its equivalent command in Pandas. <br><br>
-When working with joins, the default join type in SQL is an inner join. However, the default operation in Pandas *merge* and *join* methods is a left join.  Therefore, it might be best to always explicitly state the type of join required. 
-
-
+When working with joins, the default join type is an inner join. <br><br>
+Some more examples can also be found [here](https://pandas.pydata.org/pandas-docs/stable/getting_started/comparison/comparison_with_sql.html#compare-with-sql-join).
+<br><br>
 ## <centre> PREVIEW DATA </center>
 Example 1 - see the top 5 records:
 
@@ -50,7 +50,7 @@ WHERE user_id = 17;
 
 *Python*
 ```python
-orders.loc[orders['user_id']==17.0]
+orders.query('user_id == 17')
 ```
 ![image](https://user-images.githubusercontent.com/61554673/128571203-6733d423-fdd6-434d-bc97-2426446160cc.png)
 
@@ -89,7 +89,7 @@ ORDER BY COUNT(*) DESC;
 *Python*
 ```python
 department_counts = products.groupby(['department']).count()[['id']].rename(columns={'id':'count'})
-department_counts[department_counts>5].dropna().sort_values(by='count',ascending=False)
+department_counts.query('count > 5').dropna().sort_values(by='count',ascending=False)
 ```
 ![image](https://user-images.githubusercontent.com/61554673/128570972-d208967b-f20e-4df8-8b3b-4d8d0dcd5d2c.png)
 
@@ -226,8 +226,8 @@ WHERE weight > 27
 
 *Python*
 ```python
-query_1 = products[products.price > 500][['name', 'price', 'weight']]
-query_2 = products[products.weight > 27][['name', 'price', 'weight']]
+query_1 = products.query('price > 500')[['name', 'price', 'weight']]
+query_2 = products.query('weight > 27')[['name', 'price', 'weight']]
 pd.merge(query_1, query_2, how='inner')
 ```
 ![image](https://user-images.githubusercontent.com/61554673/128569868-92590e58-1d4f-4c87-ab97-5a1e01838fd3.png)
